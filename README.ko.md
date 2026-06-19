@@ -6,6 +6,9 @@
   <a href="https://www.oc-claw.ai"><img src="https://img.shields.io/badge/공식_웹사이트에서_다운로드-oc--claw.ai-8A2BE2?style=for-the-badge" alt="Download" /></a>
 </p>
 <p align="center">
+  <a href="https://www.producthunt.com/products/oc-claw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-oc-claw" target="_blank" rel="noopener noreferrer"><img alt="OC-Claw - A desktop pet that monitors your AI coding agents  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1173374&amp;theme=light&amp;t=1781683113675"></a>
+</p>
+<p align="center">
   <a href="./README.md">English</a> | <a href="./README.zh.md">中文</a> | <a href="./README.ja.md">日本語</a> | <b>한국어</b> | <a href="./README.es.md">Español</a> | <a href="./README.fr.md">Français</a>
 </p>
 <p align="center">
@@ -14,8 +17,8 @@
 
 <p align="center">
   <b>코딩 모드</b><br/>
-  <sub>macOS: OpenClaw, Claude Code, Cursor, Codex</sub><br/>
-  <sub>Windows: OpenClaw, Claude Code, Cursor</sub>
+  <sub>macOS: OpenClaw, Claude Code, Cursor, Codex, OpenCode, Gemini CLI, Hermes Agent</sub><br/>
+  <sub>Windows: OpenClaw, Claude Code, Cursor, Codex, OpenCode, Gemini CLI, Hermes Agent (원격 SSH)</sub>
 </p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/74b8bbf8-ddcf-4149-a91e-d18d5c24fec6" width="600" />
@@ -29,11 +32,13 @@
 
 ## 기능
 
-- OpenClaw / Claude Code / Codex / Cursor 에이전트 활동에 실시간 반응 (작업 중, 유휴, 대기)
+- OpenClaw / Claude Code / Codex / Cursor / Gemini CLI / Hermes Agent 에이전트 활동에 실시간 반응 (작업 중, 유휴, 대기)
 - 데스크톱에 캐릭터가 살며 (macOS / Windows), 에이전트 작업 중에는 애니메이션, 유휴 시에는 졸기
+- **macOS**: 노치 영역에 마우스를 올리면 세션 상세 패널이 표시됨
 - 로컬 OpenClaw 에이전트를 자동 감지하고, 세션 목록, 채팅 기록, 일일 호출/토큰 통계 표시
-- Hook을 통해 로컬 Claude Code, Codex, Cursor 세션을 수신하고 실시간 대화 표시
-- SSH를 통해 원격 서버의 OpenClaw 인스턴스에 연결
+- Hook을 통해 로컬 Claude Code, Codex, Cursor, Gemini CLI 세션을 수신하고 실시간 대화 표시
+- Gemini CLI 토큰 사용량 통계 (로컬 텔레메트리 기반)
+- SSH를 통해 원격 서버의 OpenClaw / Hermes Agent 인스턴스에 연결
 - 커스텀 캐릭터 애니메이션, 에이전트별로 다른 캐릭터 페어링
 - 섬 배경 커스터마이즈 가능, 크롭 도구 지원
 - 완료 알림음 & 대기 알림음
@@ -41,7 +46,7 @@
 ## 요구 사항
 
 - macOS 또는 Windows
-- [OpenClaw](https://github.com/nicepkg/openclaw), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Codex](https://github.com/openai/codex), [Cursor](https://www.cursor.com) 중 하나 이상 설치 필요
+- [OpenClaw](https://github.com/nicepkg/openclaw), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Codex](https://github.com/openai/codex), [Cursor](https://www.cursor.com), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Hermes Agent](https://github.com/NousResearch/hermes-agent) 중 하나 이상 설치 필요
 
 ## 작동 방식
 
@@ -50,11 +55,13 @@ OpenClaw Agents ──→ JSONL 세션 파일 ──→ 헬스 폴링 ──→ 
 Claude Code     ──→ Hooks ──→ 이벤트 파서 ──→ 활동 상태
 Codex           ──→ Hooks ──→ 이벤트 파서 ──→ 활동 상태
 Cursor          ──→ Hooks ──→ 이벤트 파서 ──→ 활동 상태
+Gemini CLI      ──→ Hooks ──→ 이벤트 파서 ──→ 활동 상태
+Hermes Agent    ──→ Plugin ──→ 이벤트 파서 ──→ 활동 상태
                                                   ↓
                  애니메이션 스프라이트 ← 상태 머신 ← 사운드 효과
 ```
 
-OC-Claw는 OpenClaw 세션 파일을 폴링하여 에이전트 활동을 감지하고, 설치된 Hook을 통해 Claude Code, Codex, Cursor를 수신합니다. 활동 상태가 노치 섬의 캐릭터 애니메이션을 구동하며, 확장 패널에서 세션 상세, 채팅 기록, 메트릭을 확인할 수 있습니다.
+OC-Claw는 OpenClaw 세션 파일을 폴링하여 에이전트 활동을 감지하고, 설치된 Hook/플러그인을 통해 Claude Code, Codex, Cursor, Gemini CLI, Hermes Agent를 수신합니다. 활동 상태가 노치 섬(macOS) 또는 작업 표시줄 영역(Windows)의 캐릭터 애니메이션을 구동하며, 확장 패널에서 세션 상세, 채팅 기록, 메트릭을 확인할 수 있습니다.
 
 ## 기술 스택
 
@@ -86,6 +93,10 @@ npx tauri dev
 ## 라이선스
 
 MIT
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=rainnoon/oc-claw&type=Date)](https://star-history.com/#rainnoon/oc-claw&Date)
 
 ---
 
