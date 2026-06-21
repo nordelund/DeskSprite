@@ -18,6 +18,7 @@ type AnimPhase =
   | 'idle'
   | 'music'
   | 'rest'
+  | 'rest-loop'
   | 'doze'
   | 'sleep'
   | 'work'
@@ -118,13 +119,17 @@ export function usePetAnimPhase(
     const restDur = REST_MIN_MS + Math.random() * (REST_MAX_MS - REST_MIN_MS)
     after(() => {
       if (sourceRef.current !== 'idle') return
-      // Randomly pick doze or sleep, stay for SLEEP_TOTAL_MS, then restart idle cycle.
-      const sleepPhase: AnimPhase = Math.random() < 0.5 ? 'doze' : 'sleep'
-      setPhase(sleepPhase)
+      setPhase('rest-loop')
       after(() => {
         if (sourceRef.current !== 'idle') return
-        startIdleCycle(0)
-      }, SLEEP_TOTAL_MS)
+        // Randomly pick doze or sleep, stay for SLEEP_TOTAL_MS, then restart idle cycle.
+        const sleepPhase: AnimPhase = Math.random() < 0.5 ? 'doze' : 'sleep'
+        setPhase(sleepPhase)
+        after(() => {
+          if (sourceRef.current !== 'idle') return
+          startIdleCycle(0)
+        }, SLEEP_TOTAL_MS)
+      }, 2 * MIN)
     }, restDur)
   }
 

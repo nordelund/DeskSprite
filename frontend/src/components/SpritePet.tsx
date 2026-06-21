@@ -137,7 +137,7 @@ export function SpritePet({ pet, state, size, onOneShotEnd, loop, className, sty
   const scale = renderW / ATLAS.cellW
   const totalW = ATLAS.cellW * ATLAS.cols * scale
   const totalH = ATLAS.cellH * ATLAS.rows * scale
-  const bgX = -frame * ATLAS.cellW * scale
+  const bgX = -(( row.startFrame ?? 0) + frame) * ATLAS.cellW * scale
   const bgY = -row.row * ATLAS.cellH * scale
 
   return (

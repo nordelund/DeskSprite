@@ -12,6 +12,7 @@ export type CodexPetState =
   | 'sleep'
   | 'doze'
   | 'rest'
+  | 'rest-loop'
   | 'music'
 
 export interface CodexPet {
@@ -35,19 +36,21 @@ export const ATLAS = {
 export interface AnimationRow {
   row: number
   frames: number
+  startFrame?: number
 }
 
 // Row layout matching the fox-pink spritesheet.
 export const ANIMATION_ROWS: Record<CodexPetState, AnimationRow> = {
-  'idle':  { row: 0, frames: 26 },
-  'work':  { row: 1, frames: 26 },
-  'wait':  { row: 2, frames: 26 },
-  'done':  { row: 3, frames: 21 },
-  'fail':  { row: 4, frames: 26 },
-  'sleep': { row: 5, frames: 26 },
-  'doze':  { row: 6, frames: 21 },
-  'rest':  { row: 7, frames: 26 },
-  'music': { row: 8, frames: 21 },
+  'idle':      { row: 0, frames: 21 },
+  'work':      { row: 1, frames: 26 },
+  'wait':      { row: 2, frames: 26 },
+  'done':      { row: 3, frames: 21 },
+  'fail':      { row: 4, frames: 26 },
+  'sleep':     { row: 5, frames: 26 },
+  'doze':      { row: 6, frames: 21 },
+  'rest':      { row: 7, frames: 26 },
+  'rest-loop': { row: 7, frames: 8, startFrame: 18 },
+  'music':     { row: 8, frames: 21 },
 }
 
 export const SPRITE_FPS = 12
