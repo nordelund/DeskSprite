@@ -17,6 +17,7 @@ const PHOEBE_PET: CodexPet = {
   displayName: 'Phoebe',
   description: '',
   spritesheetUrl: '/assets/builtin/phoebe.codex-pet/spritesheet.webp',
+  displayScale: 1,
 }
 
 export function OnboardingModal({ open, onSelect }: OnboardingModalProps) {

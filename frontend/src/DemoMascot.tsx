@@ -5,7 +5,7 @@ import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { LogicalPosition, LogicalSize } from '@tauri-apps/api/dpi'
 import { Maximize2 } from 'lucide-react'
 import { MiniPetMascot } from './components/MiniPetMascot'
-import { loadCodexPetById, loadDefaultCodexPet, type CodexPet, type CodexPetState } from './lib/codexPet'
+import { loadCodexPetById, loadDefaultCodexPet, type CodexPet, type MiniPetSourceState } from './lib/codexPet'
 
 const isWindowsPlatform =
   typeof navigator !== 'undefined' && navigator.userAgent.includes('Windows')
@@ -338,15 +338,7 @@ export function DemoMascot({ functional = false }: { functional?: boolean }) {
     window.addEventListener('pointercancel', onCancel, { once: true })
   }, [functional])
 
-  const baseState: CodexPetState = walkDir === 1
-    ? 'run-right'
-    : walkDir === -1
-      ? 'run-left'
-      : waiting
-        ? 'waiting'
-        : working
-          ? 'running'
-          : 'idle'
+  const sourceState: MiniPetSourceState = waiting ? 'waiting' : working ? 'working' : 'idle'
 
   if (!pet) return null
 
@@ -366,7 +358,8 @@ export function DemoMascot({ functional = false }: { functional?: boolean }) {
     >
       <MiniPetMascot
         pet={pet}
-        baseState={baseState}
+        sourceState={sourceState}
+        walkDir={walkDir}
         size={size}
         enableHoverJump
         suppressHover={dragging}

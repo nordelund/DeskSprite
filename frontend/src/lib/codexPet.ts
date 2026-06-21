@@ -5,14 +5,14 @@
 
 export type CodexPetState =
   | 'idle'
-  | 'run-right'
-  | 'run-left'
-  | 'waving'
-  | 'jumping'
-  | 'failed'
-  | 'waiting'
-  | 'running'
-  | 'review'
+  | 'work'
+  | 'wait'
+  | 'done'
+  | 'fail'
+  | 'sleep'
+  | 'doze'
+  | 'rest'
+  | 'music'
 
 export interface CodexPet {
   id: string
@@ -20,12 +20,15 @@ export interface CodexPet {
   description: string
   // Resolved absolute URL ready to use as a CSS background-image source.
   spritesheetUrl: string
+  // Per-character scale multiplier applied on top of MINI_SPRITE_DISPLAY_MULTIPLIER.
+  // Defaults to 1 if not set in pet.json.
+  displayScale: number
 }
 
 export const ATLAS = {
   cellW: 192,
   cellH: 208,
-  cols: 8,
+  cols: 26,
   rows: 9,
 } as const
 
@@ -34,34 +37,29 @@ export interface AnimationRow {
   frames: number
 }
 
-// Standard hatch-pet row layout. Frame counts come from the canonical
-// references/animation-rows.md contract used by the curated skill.
+// Row layout matching the fox-pink spritesheet.
 export const ANIMATION_ROWS: Record<CodexPetState, AnimationRow> = {
-  'idle':      { row: 0, frames: 6 },
-  'run-right': { row: 1, frames: 8 },
-  'run-left':  { row: 2, frames: 8 },
-  'waving':    { row: 3, frames: 4 },
-  'jumping':   { row: 4, frames: 5 },
-  'failed':    { row: 5, frames: 8 },
-  'waiting':   { row: 6, frames: 6 },
-  'running':   { row: 7, frames: 6 },
-  'review':    { row: 8, frames: 6 },
+  'idle':  { row: 0, frames: 26 },
+  'work':  { row: 1, frames: 26 },
+  'wait':  { row: 2, frames: 26 },
+  'done':  { row: 3, frames: 21 },
+  'fail':  { row: 4, frames: 26 },
+  'sleep': { row: 5, frames: 26 },
+  'doze':  { row: 6, frames: 21 },
+  'rest':  { row: 7, frames: 26 },
+  'music': { row: 8, frames: 21 },
 }
 
 export const SPRITE_FPS = 12
 
 // Per-state fps overrides. States not listed fall back to SPRITE_FPS.
-// Idle is intentionally slow (subtle breathing-style loop). Jumping plays
-// slower than the default 12fps so the 5-frame animation reads clearly
-// during the brief one-shot. Run/walk-style states are also softened so
-// the dragging mascot doesn't feel jittery.
 export const STATE_FPS: Partial<Record<CodexPetState, number>> = {
   idle: 2,
-  jumping: 6,
-  running: 6,
-  waiting: 6,
-  'run-left': 8,
-  'run-right': 8,
+  work: 6,
+  wait: 6,
+  sleep: 2,
+  doze: 6,
+  music: 6,
 }
 
 export function fpsFor(state: CodexPetState): number {
@@ -70,11 +68,11 @@ export function fpsFor(state: CodexPetState): number {
 
 // Inter-cycle rest (ms) for looping sprite states. After completing a
 // cycle, SpritePet holds the last frame for this duration before
-// restarting from frame 0. Lets passive states like `waiting` read as
+// restarting from frame 0. Lets passive states like `wait` read as
 // repeated bursts with stillness in between (matching the jump cadence)
 // instead of a continuous animation that feels too busy.
 export const STATE_LOOP_REST_MS: Partial<Record<CodexPetState, number>> = {
-  waiting: 600,
+  wait: 600,
 }
 
 export function loopRestMsFor(state: CodexPetState): number {
@@ -110,9 +108,9 @@ export function petStateToCodexState(state: MiniPetSourceState): CodexPetState {
       return 'idle'
     case 'working':
     case 'compacting':
-      return 'running'
+      return 'work'
     case 'waiting':
-      return 'waiting'
+      return 'wait'
     default:
       return 'idle'
   }
@@ -126,6 +124,7 @@ interface RawPetMeta {
   displayName: string
   description: string
   spritesheetPath: string
+  displayScale?: number
 }
 
 interface PetsManifest {
@@ -155,6 +154,7 @@ export function loadCodexPets(): Promise<CodexPet[]> {
               displayName: meta.displayName || id,
               description: meta.description || '',
               spritesheetUrl: `${BUILTIN_BASE}/${id}/${meta.spritesheetPath}`,
+              displayScale: meta.displayScale ?? 1,
             }
           } catch {
             return null
@@ -204,6 +204,7 @@ export async function loadCustomCodexPets(): Promise<CodexPet[]> {
       displayName: m.displayName,
       description: m.description,
       spritesheetUrl: m.spritesheetUrl,
+      displayScale: 1,
     }))
   } catch (e) {
     console.warn('[codexPet] loadCustomCodexPets failed:', e)

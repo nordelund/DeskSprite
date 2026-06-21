@@ -2327,9 +2327,14 @@ export default function Mini() {
         setClaudeSessions(sessions)
         if (completionCandidate) {
           shownCompletionsRef.current.add(completionCandidate.sessionId)
-          hoverExpandedRef.current = true
-          setCompletionSessionId(completionCandidate.sessionId)
-          expandFnRef.current?.()
+          // Delay the popup so the `done` celebration animation plays first.
+          const sid = completionCandidate.sessionId
+          setTimeout(() => {
+            if (expandedRef.current || expandingRef.current) return
+            hoverExpandedRef.current = true
+            setCompletionSessionId(sid)
+            expandFnRef.current?.()
+          }, 5000)
         }
       } catch {
         /* ignore */
@@ -4015,13 +4020,8 @@ export default function Mini() {
   // Priority: waiting > compacting > working > idle
   const mainPetState: PetState = claudeWaiting ? 'waiting' : claudeCompacting ? 'compacting' : hasWorking ? 'working' : 'idle'
   // Sprite resting state for the main mascot. Walking direction (set by
-  // the walk timer) overrides the working/waiting/idle mapping so the pet
+  // the walk timer) overrides the work/wait/idle mapping so the pet
   // visibly runs left/right while the native window is moving.
-  const mainSpriteState: CodexPetState = walkDir === 1
-    ? 'run-right'
-    : walkDir === -1
-      ? 'run-left'
-      : petStateToCodexState(mainPetState)
   // Broadcast the resolved mascot state so dev-mode demo windows can
   // mirror it. The main window owns the polling loops that derive
   // working / waiting / idle (claude sessions every 2s, agents every
@@ -4547,7 +4547,8 @@ export default function Mini() {
               >
                 <MiniPetMascot
                   pet={miniPet}
-                  baseState={mainSpriteState}
+                  sourceState={mainPetState}
+                  walkDir={walkDir}
                   size={largeMascotVisualSize}
                   enableHoverJump
                   externalHover={mascotHover}

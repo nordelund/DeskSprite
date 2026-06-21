@@ -26,9 +26,10 @@ interface SpritePetProps {
 
 // Render a single 192x208 cell from a hatch-pet style 8x9 atlas, advancing
 // frames at SPRITE_FPS via requestAnimationFrame. Looping states cycle
-// indefinitely; one-shot states (currently `jumping`) hold the last frame
-// and notify the parent via onOneShotEnd.
-const ONE_SHOT_STATES: ReadonlySet<CodexPetState> = new Set(['jumping'])
+// indefinitely; one-shot states hold the last frame and notify the parent
+// via onOneShotEnd. `done` was previously one-shot but is now a looping
+// state managed by the usePetAnimPhase time-based state machine.
+const ONE_SHOT_STATES: ReadonlySet<CodexPetState> = new Set<CodexPetState>([])
 
 export function SpritePet({ pet, state, size, onOneShotEnd, loop, className, style }: SpritePetProps) {
   const [frameIndex, setFrameIndex] = useState(0)

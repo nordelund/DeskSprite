@@ -3200,8 +3200,8 @@ fn collapsed_x(sx: f64, sw: f64, win_w: f64, position: &str, notch_offset: f64) 
 // to the MINI_SPRITE_DISPLAY_MULTIPLIER=2 used in Mini.tsx) fits entirely
 // inside the native window. Without the extra room the sprite gets clipped
 // at the bottom/right edges of the OS-level mascot window.
-const COLLAPSED_MASCOT_BASE_W: f64 = 96.0;
-const COLLAPSED_MASCOT_BASE_H: f64 = 96.0;
+const COLLAPSED_MASCOT_BASE_W: f64 = 140.0;
+const COLLAPSED_MASCOT_BASE_H: f64 = 152.0;
 // Vertical inset applied to the default mascot position so the sprite is
 // always rendered below the macOS menu bar / notch (or the equivalent top
 // chrome on Windows). Covers both notched (~38pt) and non-notched (~24pt)
