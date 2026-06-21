@@ -1,15 +1,9 @@
 <p align="center">
   <img src="icon.png" width="80" />
 </p>
-<h1 align="center">OC-Claw</h1>
+<h1 align="center">DeskSprite</h1>
 <p align="center">
-  <a href="https://www.oc-claw.ai"><img src="https://img.shields.io/badge/前往官网下载-oc--claw.ai-8A2BE2?style=for-the-badge" alt="Download" /></a>
-</p>
-<p align="center">
-  <a href="https://www.producthunt.com/products/oc-claw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-oc-claw" target="_blank" rel="noopener noreferrer"><img alt="OC-Claw - A desktop pet that monitors your AI coding agents  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1173374&amp;theme=light&amp;t=1781683113675"></a>
-</p>
-<p align="center">
-  <a href="./README.md">English</a> | <b>中文</b> | <a href="./README.ja.md">日本語</a> | <a href="./README.ko.md">한국어</a> | <a href="./README.es.md">Español</a> | <a href="./README.fr.md">Français</a>
+  <a href="./README.md">English</a> | <b>中文</b>
 </p>
 <p align="center">
   桌面宠物应用，实时监控你的 AI 编程 agent 工作状态。支持 macOS 和 Windows。
@@ -61,7 +55,7 @@ Hermes Agent    ──→ Plugin ──→ 事件解析 ──→ 活动状态
                           角色动画 ← 状态机 ← 提示音效
 ```
 
-OC-Claw 通过轮询 OpenClaw session 文件检测 agent 活动，并通过安装的 Hook/插件监听 Claude Code、Codex、Cursor、Gemini CLI 和 Hermes Agent。活动状态驱动刘海岛屿（macOS）或任务栏区域（Windows）上的角色动画，可展开面板查看 session 详情、聊天记录和统计数据。
+DeskSprite 通过轮询 OpenClaw session 文件检测 agent 活动，并通过安装的 Hook/插件监听 Claude Code、Codex、Cursor、Gemini CLI 和 Hermes Agent。活动状态驱动刘海岛屿（macOS）或任务栏区域（Windows）上的角色动画，可展开面板查看 session 详情、聊天记录和统计数据。
 
 ## 技术栈
 
@@ -77,32 +71,18 @@ npm install
 npx tauri dev
 ```
 
+> Windows 下如果报"拒绝访问 (os error 5)"，先 kill 掉旧的 `ooclaw.exe` 进程再重试。
+
 ## 贡献
 
 欢迎提交 Bug 报告、功能建议和 Pull Request。
 
-## 友情链接
-
-感谢 [LINUX DO](https://linux.do/) 朋友们的支持与反馈。
-
 ## 致谢
 
+- [OC-Claw](https://github.com/rainnoon/oc-claw) — 本项目基于此上游 fork
 - [Notchi](https://github.com/sk-ruban/notchi) — 刘海伴侣概念和草地岛屿的设计灵感
 - [Vibe Island](https://github.com/vibeislandapp/vibe-island) — 交互设计参考
 
 ## 许可证
 
 MIT
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=rainnoon/oc-claw&type=Date)](https://star-history.com/#rainnoon/oc-claw&Date)
-
----
-
-<p align="center">
-  <img src="assets/powered-by-kaon.png" height="28" />
-</p>
-<p align="center">
-  <sub>最初诞生于 KAON Hackathon</sub>
-</p>

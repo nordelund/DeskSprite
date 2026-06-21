@@ -1,15 +1,9 @@
 <p align="center">
   <img src="icon.png" width="80" />
 </p>
-<h1 align="center">OC-Claw</h1>
+<h1 align="center">DeskSprite</h1>
 <p align="center">
-  <a href="https://www.oc-claw.ai"><img src="https://img.shields.io/badge/Download_OC--Claw-oc--claw.ai-8A2BE2?style=for-the-badge" alt="Download" /></a>
-</p>
-<p align="center">
-  <a href="https://www.producthunt.com/products/oc-claw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-oc-claw" target="_blank" rel="noopener noreferrer"><img alt="OC-Claw - A desktop pet that monitors your AI coding agents  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1173374&amp;theme=light&amp;t=1781683113675"></a>
-</p>
-<p align="center">
-  <b>English</b> | <a href="./README.zh.md">中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ko.md">한국어</a> | <a href="./README.es.md">Español</a> | <a href="./README.fr.md">Français</a>
+  <b>English</b> | <a href="./README.zh.md">中文</a>
 </p>
 <p align="center">
   A desktop pet that monitors your AI coding agents in real time. Supports macOS and Windows.
@@ -61,7 +55,7 @@ Hermes Agent    ──→ Plugin ──→ Event parser ──→ Activity state
                     Animated sprites ← State machine ← Sound effects
 ```
 
-OC-Claw polls OpenClaw session files to detect agent activity, and listens to Claude Code, Codex, Cursor, Gemini CLI, and Hermes Agent via installed hooks/plugins. Activity states drive character animations on the notch island (macOS) or taskbar area (Windows), with an expandable panel for session details, chat history, and metrics.
+DeskSprite polls OpenClaw session files to detect agent activity, and listens to Claude Code, Codex, Cursor, Gemini CLI, and Hermes Agent via installed hooks/plugins. Activity states drive character animations on the notch island (macOS) or taskbar area (Windows), with an expandable panel for session details, chat history, and metrics.
 
 ## Tech Stack
 
@@ -77,32 +71,18 @@ npm install
 npx tauri dev
 ```
 
+> If you see "access denied (os error 5)" on Windows, kill the old `ooclaw.exe` process first.
+
 ## Contributing
 
 Bug reports, feature suggestions, and pull requests are welcome.
 
-## Friendship Link
-
-Thanks for the support and feedback from the friends at [LINUX DO](https://linux.do/).
-
 ## Credits
 
+- [OC-Claw](https://github.com/rainnoon/oc-claw) — upstream project this fork is based on
 - [Notchi](https://github.com/sk-ruban/notchi) — design inspiration for notch companion concept and grass island
 - [Vibe Island](https://github.com/vibeislandapp/vibe-island) — interaction design reference
 
 ## License
 
 MIT
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=rainnoon/oc-claw&type=Date)](https://star-history.com/#rainnoon/oc-claw&Date)
-
----
-
-<p align="center">
-  <img src="assets/powered-by-kaon.png" height="28" />
-</p>
-<p align="center">
-  <sub>Originally created at KAON Hackathon</sub>
-</p>
