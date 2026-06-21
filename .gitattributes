@@ -1,0 +1,9 @@
+# Files excluded from upstream oc-claw sync
+# These files use local version and will not be overwritten when merging upstream
+website/ merge=ours
+install.sh merge=ours
+install.ps1 merge=ours
+README.es.md merge=ours
+README.fr.md merge=ours
+README.ja.md merge=ours
+README.ko.md merge=ours
